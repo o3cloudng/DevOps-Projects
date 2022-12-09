@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: image-compressor-ingress
+  namespace: dev
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+spec:
+  rules:
+    - host: "dev.infotitans.se"
+      http:
+        paths:
+          - path: "/*"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: image-compressor-service
+                port:
+                  number: 80

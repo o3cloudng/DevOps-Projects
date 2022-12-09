@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-react-image-compressor
+  namespace: dev
+  labels:
+    app: image-compressor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: image-compressor
+  template:
+    metadata:
+      labels:
+        app: image-compressor
+    spec:
+      containers:
+        - name: image-compressor
+          image: o3cloudng/test-react-image-compressor-app
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /prometheus
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /prometheus
+            periodSeconds: 10
+            initialDelaySeconds: 20
